@@ -28,6 +28,19 @@ button:active {
     scale: 0.97;
 }
 
+.ce-block__content {
+    max-width: calc(100% - 90px) !important;
+    margin: 0 !important;
+}
+
+.ce-toolbar__content {
+    max-width: calc(100% - 50px) !important;
+}
+
+.ce-toolbar__actions {
+    right: 0 !important;
+}
+
 ::-webkit-scrollbar {
     width: 4px;
 }
