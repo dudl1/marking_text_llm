@@ -12,10 +12,20 @@ body {
     width: 100%;
 }
 
+/*.left {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}*/
+
 .left {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.left_header {
+    display: flex;
 }
 
 .button_select_file,
@@ -87,7 +97,7 @@ body {
 }
 
 .textfield_instruction::before,
-.textfield_answer::before {
+.textfield_output::before {
     pointer-events: none;
     display: block;
     height: 0;
@@ -99,23 +109,11 @@ body {
     content: "Instruction";
 }
 
-.textfield_answer::before {
-    content: "Answer";
+.textfield_output::before {
+    content: "Output";
 }
 
-.textfield_instruction::after {
-    content: "Write instruction...";
-}
-
-.textfield_answer::after {
-    content: "Write an answer... Select the desired text fragment and mark it with the appropriate label by right-clicking";
-}
-
-.textfield:focus::after {
-    display: none;
-}
-
-.textfield.has-content::after {
+#editor-instruction .ce-toolbar__actions {
     display: none;
 }
 
@@ -140,6 +138,29 @@ body {
     text-transform: uppercase;
     padding: 20px 0 20px 0;
     font-size: 20px;
+}
+
+.special_buttons_fileContent {
+    display: grid;
+    margin-left: 10px;
+}
+
+.button_data {
+    width: 150px;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.show_all_data {
+    margin-top: 10px;
+}
+
+.recovery_data {
+    position: absolute;
+    left: 30px;
+    bottom: 0;
+    font-size: 11px;
 }
 
 @media (max-width: 1380px) {

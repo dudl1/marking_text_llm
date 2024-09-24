@@ -6,6 +6,8 @@
     <title>TML - Text Markup for LLM</title>
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./contextmenu.css">
+    <link rel="stylesheet" href="./datastyle.css">
 </head>
 <body>
 
@@ -13,16 +15,27 @@
 
         <div class="left">
 
-            <div class="special_buttons">
+            <div class="left_header">
+
+                <div class="special_buttons">
     
-                <button class="button_select_file">
-                    Select a file
-                    <div class="file_name"></div>
-                    <input type="file" id="fileInput" accept=".csv" style="display: none;">
-                </button>
+                    <button class="button_select_file">
+                        Select a file
+                        <div class="file_name"></div>
+                        <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                    </button>
+        
+                    <button class="button_save_file">Save the file</button>
+        
+                </div>
     
-                <button class="button_save_file">Save the file</button>
+                <div class="special_buttons_fileContent">
     
+                    <button class="show_new_data button_data">Table: new data</button>
+                    <button class="show_all_data button_data">Table: all data</button>
+    
+                </div>
+
             </div>
 
             <div class="file_content">
@@ -38,17 +51,12 @@
             </div>            
     
         </div>
-    
+
         <div class="center">
-    
             <div class="textfields_ia">
-    
-                <div class="textfield textfield_instruction" contenteditable="true"></div>
-    
-                <div class="textfield textfield_answer" contenteditable="true"></div>
-    
+                <div id="editor-instruction" class="textfield textfield_instruction"></div>
+                <div id="editor-output" class="textfield textfield_output"></div>
             </div>
-    
         </div>
     
         <div class="right">
@@ -63,6 +71,12 @@
 
     </div>
 
+    <button class="recovery_data">Восстановить данные</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <script src="./script.js"></script>
 </body>
 </html>
