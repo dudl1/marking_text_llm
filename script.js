@@ -21,6 +21,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+
+
+
 const selectFile = document.querySelector('.button_select_file')
 const fileName = document.querySelector('.file_name')
 const fileInput = document.getElementById('fileInput')
@@ -91,7 +94,7 @@ const editorOutput = new EditorJS({
         list: {
             class: List,
             inlineToolbar: true
-        }
+        },
     }
 })
 
@@ -131,29 +134,39 @@ document.querySelector('.create_next_data').addEventListener('click', async func
 
 function formatBlocks(blocks) {
     let content = []
-    
+
     blocks.forEach(block => {
         if (block.type === 'header') {
             let text = block.data.text ? block.data.text.trim() : ''
             content.push(`/h ${text}`)
         } else if (block.type === 'paragraph') {
-            let text = block.data.text ? block.data.text.trim() : ''
+            let text = block.data.text ? formatInlineStyles(block.data.text).trim() : ''
             content.push(`/p ${text}`)
         } else if (block.type === 'list') {
             block.data.items.forEach((item, index) => {
-                let listItem = item ? item.trim() : ''
-                // Добавляем нумерацию перед элементом списка
+                let listItem = item ? formatInlineStyles(item.trim()) : ''
                 content.push(`/l${index + 1} ${listItem}`)
             })
         } else {
-            let text = block.data.text ? block.data.text.trim() : ''
+            let text = block.data.text ? formatInlineStyles(block.data.text).trim() : ''
             content.push(text)
         }
     })
 
     const uniqueContent = [...new Set(content)]
-    
     return uniqueContent.join(' ').replace(/\s+/g, ' ').trim()
+}
+
+function formatInlineStyles(text) {
+    text = text.replace(/<b>(.*?)<\/b>/g, '**$1**')
+        .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+
+    text = text.replace(/<i>(.*?)<\/i>/g, '*$1*')
+        replace(/<em>(.*?)<\/em>/g, '*$1*')
+
+    text = text.replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)')
+
+    return text
 }
 
 
