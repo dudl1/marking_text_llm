@@ -162,7 +162,7 @@ function formatInlineStyles(text) {
         .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
 
     text = text.replace(/<i>(.*?)<\/i>/g, '*$1*')
-        replace(/<em>(.*?)<\/em>/g, '*$1*')
+        .replace(/<em>(.*?)<\/em>/g, '*$1*')
 
     text = text.replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)')
 
