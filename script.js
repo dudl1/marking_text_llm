@@ -104,7 +104,7 @@ document.querySelector('.create_next_data').addEventListener('click', async func
         const outputData = await editorOutput.save()
 
         const instruction = instructionData.blocks.map(block => block.data.text ? block.data.text.trim() : '').join(' ')
-        const output = formatBlocks(outputData.blocks)
+        const output = formatBlocks(outputData.blocks)  // Применяем форматирование только для output
 
         if (instruction && output !== '') {
             const newRow = document.createElement('tr')
@@ -113,7 +113,10 @@ document.querySelector('.create_next_data').addEventListener('click', async func
             const instructionCell = document.createElement('td')
             const outputCell = document.createElement('td')
 
+            // Оставляем инструкцию как есть, без спецсимволов
             instructionCell.textContent = instruction
+
+            // Применяем спецсимволы только к output
             outputCell.innerHTML = output
 
             newRow.appendChild(instructionCell)
@@ -122,13 +125,14 @@ document.querySelector('.create_next_data').addEventListener('click', async func
 
             saveNewRowsToLocalStorage()
 
+            // Очищаем редакторы после добавления данных
             editorInstruction.clear()
             editorOutput.clear()
         } else {
-            alert('Fill in the fields "Instruction" и "Output"')
+            alert('Заполните поля "Instruction" и "Output"')
         }
     } catch (error) {
-        handleErrors('Error when creating new data', error)
+        handleErrors('Ошибка при создании новых данных', error)
     }
 })
 
@@ -214,22 +218,20 @@ function saveDataToFile() {
 }
 
 function formatContentForCSV(cell) {
-    let content = new Set()  // Используем Set для автоматического удаления дубликатов
+    let content = new Set()
 
-    // Проверяем каждый узел в ячейке
+    // Проверяем содержимое ячейки
     cell.childNodes.forEach(node => {
         let text = node.textContent.trim()
 
-        if (node.nodeType === Node.TEXT_NODE || node.nodeType === Node.ELEMENT_NODE) {
+        // Определяем, является ли колонка инструкцией (instruct) или результатом (output)
+        if (cell.cellIndex === 0) {  // Предположим, что это колонка с инструкциями
+            content.add(text)  // Добавляем текст как есть для instruct
+        } else if (cell.cellIndex === 1) {  // Предположим, что это колонка с результатами
             if (/\/[ph]\s/.test(text)) {
-                content.add(text)  // Добавляем текст без изменений, если спецсимвол уже присутствует
-            } else if (node.classList && node.classList.contains('header')) {
-                content.add(`/h ${text}`)
-            } else if (node.classList && node.classList.contains('paragraph')) {
-                content.add(`/p ${text}`)
-            } else if (node.classList && node.classList.contains('list')) {
-                content.add(`/l ${text}`)
+                content.add(text)  // Если спецсимволы уже есть, оставляем текст как есть
             } else {
+                // Применяем нужное форматирование для output
                 content.add(`/p ${text}`)
             }
         }
